@@ -1,23 +1,36 @@
 import Vue from 'vue'
+import iView from 'iview'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
 
-Vue.use(Router)
+Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   routes: [
     {
-      path: '/',
-      name: 'home',
-      component: Home
+      path: '/login',
+      name: 'login',
+      component: () => import('./views/Login.vue')
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import(/* webpackChunkName: "about" */ './views/About.vue')
+        path: '/main',
+        name: 'main',
+        component: () => import('./views/Main.vue')
+    },
+    // 重定向
+    {
+      path: '/',
+      redirect: '/login'
     }
   ]
+});
+
+// 路由拦截器
+router.beforeEach((to, form, next) => {
+    iView.LoadingBar.start();
+    next();
+});
+
+router.afterEach(route => {
+    iView.LoadingBar.finish();
 })
+export default router
