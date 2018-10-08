@@ -4,7 +4,11 @@ import router from './router'
 import store from './store'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css';
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
 
+// use
+Vue.use(mavonEditor)
 Vue.use(iView)
 
 Vue.config.productionTip = false

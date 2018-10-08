@@ -17,7 +17,7 @@
                     </Input>
                 </FormItem>
                 <FormItem>
-                    <Button type="primary" @click="handleSubmit('formInline')">登录</Button>
+                    <Button type="primary" @click="handleSubmit('formInline')" :loading="loading">登录</Button>
                 </FormItem>
             </Form>
         </div> 
@@ -31,6 +31,7 @@ export default {
     name: 'login',
     data () {
         return {
+            loading: false,
             formInline: {
                 user: '',
                 password: ''
@@ -50,9 +51,11 @@ export default {
         handleSubmit(name) {
             this.$refs[name].validate((valid) => {
                 if (valid) {
+                    this.loading = true;
                     this.$Message.success('Success!');
                     Cookies.set('user', this.formInline.user, { expires: 7});
                     Cookies.set('password', this.formInline.password, { expires: 7});
+                    this.loading = false;
                     this.$router.push('main');
                 } else {
                     this.$Message.error('Fail!');
@@ -62,9 +65,11 @@ export default {
         enterSubmit(name) {
             this.$refs[name].validate((valid) => {
                 if (valid) {
+                     this.loading = true;
                     this.$Message.success('Success!');
                     Cookies.set('user', this.formInline.user, { expires: 7});
                     Cookies.set('password', this.formInline.password, { expires: 7});
+                    this.loading = false;
                     this.$router.push('main');
                 } else {
                     this.$Message.error('Fail!');
