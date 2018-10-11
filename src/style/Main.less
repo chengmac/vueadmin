@@ -1,20 +1,12 @@
 
 .main{ 
     height: 100%;
-    border-radius: 4px;
-    overflow: hidden;
 
     .layout-header-bar{
-        background: #fff;
+        // background: #fff;
         box-shadow: 0 1px 1px rgba(0,0,0,.1);
     }
-    .layout-logo-left{
-        width: 90%;
-        height: 30px;
-        background: #5b6270;
-        border-radius: 3px;
-        margin: 15px auto;
-    }
+    
     .ivu-breadcrumb {
         display: inline-block;
         vertical-align: top;
@@ -26,33 +18,25 @@
         transform: rotate(-90deg);
     }
 
-    .menu-item span{
-        display: inline-block;
-        overflow: hidden;
-        width: 69px;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        vertical-align: bottom;
-        transition: width .2s ease .2s;
-    }
-    .menu-item i{
-        transform: translateX(0px);
-        transition: font-size .2s ease, transform .2s ease;
-        vertical-align: middle;
-        font-size: 16px;
-    }
-    .collapsed-menu span{
-        width: 0px;
-        transition: width .2s ease;
-    }
-    .collapsed-menu i{
-        transform: translateX(5px);
-        transition: font-size .2s ease .2s, transform .2s ease .2s;
-        vertical-align: middle;
-        font-size: 22px;
-    }
+    .content {
+        overflow: auto;
+        padding: 10px;
+        height: calc(100% - 64px);
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 
+        .ivu-layout-content{
+            background-color: #fff;
+        }
+    }
     .ivu-layout-header {
         padding: 0;
+        background-color: #fff;
+    }
+
+    .ivu-layout-sider {
+        overflow: hidden;
+        background-color: #fff;
+        box-shadow: 1px 0px 1px rgba(0, 0, 0, 0.1);
     }
 }

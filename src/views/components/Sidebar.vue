@@ -3,10 +3,22 @@
         <div class="sidebar_head">
         </div>
         <Layout>
-            <Menu active-name=0 theme="dark" width="auto" :class="menuitemClasses">
-                <Menu-item v-for="(item, index) in menuList" :name="index" :key="index">
+            <Menu :theme="themes" width="auto" :class="menuitemClasses" active-name="articleEditor" @on-select="changeMenu">
+                <!-- <Menu-item v-for="(item, index) in menuList" :name="index" :key="index">
                     <Icon type="ios-home-outline"></Icon>
                     <span>{{item.name}}</span>
+                </Menu-item> -->
+                <Menu-item name="home">
+                    <Icon type="ios-home-outline" />
+                    <span>首页</span>
+                </Menu-item>
+                <Menu-item name="articleEditor">
+                    <Icon type="ios-create-outline" />
+                    <span>文章编辑</span>
+                </Menu-item>
+                <Menu-item name="articleAdministration">
+                    <Icon type="ios-list-box-outline" />
+                    <span>文章分类</span>
                 </Menu-item>
             </Menu>
         </Layout>
@@ -22,6 +34,7 @@ export default {
     },
     data() {
         return {
+            themes: 'light',
             menuList: [{name: '我是你大爷 '},{name: '我是你大娘 '}]
         }
     },
@@ -34,9 +47,11 @@ export default {
         }
     },
     methods: {
-        // collapsedSider () {
-        //     this.$refs.side.toggleCollapse();
-        // }
+        changeMenu (name) {
+            this.$router.push({
+                name: name
+            });
+        }
     }
 }
 </script>

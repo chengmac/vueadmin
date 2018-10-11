@@ -1,6 +1,7 @@
 <template>
-    <div class="home">
+    <div class="articleEditor">
         <Layout>
+            <mavon-editor v-model="value"/>
         </Layout>
     </div>
 </template>
@@ -8,7 +9,7 @@
 <script>
 
 export default {
-    name: 'Home',
+    name: 'ArticleEditor',
     data () {
         return {
             value: ''
@@ -21,7 +22,6 @@ export default {
 </script>
 
 <style scoped lang="less">
-    @import '../style/Home.less';
+    @import '../../style/article/ArticleEditor.less';
 
 </style>
-

@@ -1,25 +1,25 @@
 <template>
-    <div class="main">
+    <Layout class="main">
+        <Sider ref="side" hide-trigger collapsible :collapsed-width="78" :width="240" v-model="isCollapsed">
+            <Sidebar :collapsed="isCollapsed"></Sidebar>
+        </Sider>
         <Layout>
-            <Sider ref="side" hide-trigger collapsible :collapsed-width="78" :width="240" v-model="isCollapsed">
-                <Sidebar :collapsed="isCollapsed"></Sidebar>
-            </Sider>
-            <Layout>
-                <Header class="layout-header-bar">
-                    <Icon @click.native="collapsedSider" :class="rotateIcon" :style="{margin: '0 20px'}" type="md-menu" size="24"></Icon>
-                    <Breadcrumb>
-                        <BreadcrumbItem to="/">
-                            <Icon type="ios-home-outline"></Icon> Home
-                        </BreadcrumbItem>
-                    </Breadcrumb>
-                    <Navbar></Navbar>
-                </Header>
-                <Content>
-                    <Home></Home>
-                </Content>
-            </Layout>
-        </Layout>
-    </div>
+            <Header class="layout-header-bar">
+                <Icon @click.native="collapsedSider" :class="rotateIcon" :style="{margin: '0 20px'}" type="md-menu" size="24"></Icon>
+                <Breadcrumb>
+                    <BreadcrumbItem  v-for="(item, index) in breadcrumbList" :to="item.path" :key="index">
+                        <Icon :type="item.icon" />{{item.name}}
+                    </BreadcrumbItem>
+                </Breadcrumb>
+                <Navbar></Navbar>
+            </Header>
+            <Content class="content">
+                <keep-alive>
+                    <router-view></router-view>
+                </keep-alive>
+            </Content>
+        </Layout>   
+    </Layout>
 </template>
 
 <script>
@@ -35,7 +35,10 @@ export default {
     },
     data () {
         return {
-            isCollapsed: false
+            isCollapsed: false,
+            breadcrumbList: [
+                {name: '文章编辑', path: 'articleEditor', icon: 'ios-create-outline'}
+                ]
         }
     },
     computed: {

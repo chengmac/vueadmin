@@ -1,27 +1,26 @@
 <template>
-    <div class="login">
-        <div class="login_head">
-
-        </div>
-        <div class="loginBody">
-            <Form ref="formInline" :model="formInline" :rules="ruleInline">
-                <!-- eslint-disable-next-line vue/max-attributes-per-line -->
-                <FormItem prop="user">
-                    <Input type="text" v-model="formInline.user" placeholder="Username">
-                        <Icon type="ios-person-outline" slot="prepend"></Icon>
-                    </Input>
-                </FormItem>
-                <FormItem prop="password">
-                    <Input type="password" v-model="formInline.password" placeholder="Password" @keyup.native.enter="enterSubmit('formInline')">
-                        <Icon type="ios-lock-outline" slot="prepend"></Icon>
-                    </Input>
-                </FormItem>
-                <FormItem>
-                    <Button type="primary" @click="handleSubmit('formInline')" :loading="loading">登录</Button>
-                </FormItem>
-            </Form>
+    <Layout class="login">
+        <div class="login-container">
+            <Content class="loginBody">
+                <Form ref="formInline" :model="formInline" :rules="ruleInline">
+                    <!-- eslint-disable-next-line vue/max-attributes-per-line -->
+                    <FormItem prop="user">
+                        <Input type="text" v-model="formInline.user" placeholder="Username">
+                            <Icon type="ios-person-outline" slot="prepend"></Icon>
+                        </Input>
+                    </FormItem>
+                    <FormItem prop="password">
+                        <Input type="password" v-model="formInline.password" placeholder="Password" @keyup.native.enter="enterSubmit('formInline')">
+                            <Icon type="ios-lock-outline" slot="prepend"></Icon>
+                        </Input>
+                    </FormItem>
+                    <FormItem>
+                        <Button type="primary" @click="handleSubmit('formInline')" :loading="loading">登录</Button>
+                    </FormItem>
+                </Form>
+            </Content>
         </div> 
-    </div>
+    </Layout>
 </template>
 
 <script>
@@ -70,7 +69,7 @@ export default {
                     Cookies.set('user', this.formInline.user, { expires: 7});
                     Cookies.set('password', this.formInline.password, { expires: 7});
                     this.loading = false;
-                    this.$router.push('main');
+                    this.$router.push('articleEditor');
                 } else {
                     this.$Message.error('Fail!');
                 }
