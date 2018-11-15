@@ -2,15 +2,47 @@
     height: 100%;
     padding: 0 30px;
     float: right;
+    .poptip-modal {
+        z-index: 2000 !important;
+    }
     .nav {
-        display: flex;
-        .news {
-            height: 30px;
-            margin: 0 30px;
+        // display: flex;
+        .news-modal {
+            margin-right: 20px;
+        }
+        .new-item-body {
+            max-height: 312px;
+            overflow: auto;
+        }
+         
+        .news-item {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+        .new-item-content {
+            display: block;
+        }
+        .news-item-list {
+            margin: 0;
+            line-height: normal;
+            padding: 7px 16px;
+            clear: both;
+            color: #515a6e;
+            font-size: 12px!important;
+            white-space: nowrap;
+            list-style: none;
             cursor: pointer;
-            .ivu-icon{
-                font-size: 30px;
-            }
+            transition: background .2s ease-in-out;
+        }
+        .news-item-list:hover {
+            background-color: #f3f3f3;
+        }
+        .news {
+            padding-right: 8px;
+            height: 45px;
+            cursor: pointer;
             // 消息数样式
             .ivu-badge{
                 display: inline;
@@ -19,13 +51,18 @@
                     top: 10px;
                 }
             }
+            .news-icon {
+                opacity: 0.7;
+            }
+            .news-icon:hover {
+                opacity: 1;
+            }
         }
 
         .ivu-dropdown {
-            // float: left;
             line-height: 64px;
             cursor: pointer;
-            .ivu-icon {
+            .ivu-icon.user-dropdown {
                 margin-left: 5px;
                 font-size: 20px;
             }

@@ -3,28 +3,17 @@
         <div class="sidebar_head">
         </div>
         <Layout>
-            <Menu :theme="themes" width="auto" :class="menuitemClasses" active-name="articleEditor" @on-select="changeMenu">
-                <!-- <Menu-item v-for="(item, index) in menuList" :name="index" :key="index">
-                    <Icon type="ios-home-outline"></Icon>
-                    <span>{{item.name}}</span>
-                </Menu-item> -->
-                <Menu-item name="home">
-                    <Icon type="ios-home-outline" />
-                    <span>首页</span>
-                </Menu-item>
-                <Menu-item name="articleEditor">
-                    <Icon type="ios-create-outline" />
-                    <span>文章编辑</span>
-                </Menu-item>
-                <Menu-item name="articleAdministration">
-                    <Icon type="ios-list-box-outline" />
-                    <span>文章分类</span>
+            <Menu :theme="themes" width="auto" :class="menuitemClasses" :active-name="$route.name" @on-select="changeMenu">
+                <Menu-item v-for="(item, index) in getMenuList" :name="item.name" :key="index">
+                    <Icon :type="item.icon"></Icon>
+                    <span>{{item.meta.title}}</span>
                 </Menu-item>
             </Menu>
         </Layout>
     </div>    
 </template>
 <script>
+
 export default {
     name: 'sidebar',
     props: {
@@ -34,9 +23,11 @@ export default {
     },
     data() {
         return {
-            themes: 'light',
-            menuList: [{name: '我是你大爷 '},{name: '我是你大娘 '}]
+            themes: 'light'
         }
+    },
+    created() {
+        this.$store.commit('MENU_LIST');
     },
     computed: {
         menuitemClasses () {
@@ -44,6 +35,13 @@ export default {
                 'menu-item',
                 this.collapsed ? 'collapsed-menu' : ''
             ]
+        },
+        getMenuList() {
+            return this.$store.state.other.menuList;
+        },
+        setMenu () {
+            return window.location.hash;
+            // return this.$router.path;
         }
     },
     methods: {
@@ -52,6 +50,9 @@ export default {
                 name: name
             });
         }
+    },
+    watch: {
+        
     }
 }
 </script>

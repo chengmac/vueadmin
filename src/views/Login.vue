@@ -10,7 +10,7 @@
                         </Input>
                     </FormItem>
                     <FormItem prop="password">
-                        <Input type="password" v-model="formInline.password" placeholder="Password" @keyup.native.enter="enterSubmit('formInline')">
+                        <Input type="password" v-model="formInline.password" placeholder="Password" @keyup.native.enter="handleSubmit('formInline')">
                             <Icon type="ios-lock-outline" slot="prepend"></Icon>
                         </Input>
                     </FormItem>
@@ -24,13 +24,12 @@
 </template>
 
 <script>
-import Cookies from 'js-cookie';
+import Cookies from 'js-cookie'
 
 export default {
     name: 'login',
     data () {
         return {
-            loading: false,
             formInline: {
                 user: '',
                 password: ''
@@ -46,34 +45,27 @@ export default {
             }
         }
     },
+    computed: {
+        loading() {
+            return this.$store.state.auth.loginloading;
+        }
+    },
     methods: {
         handleSubmit(name) {
             this.$refs[name].validate((valid) => {
                 if (valid) {
-                    this.loading = true;
-                    this.$Message.success('Success!');
-                    Cookies.set('user', this.formInline.user, { expires: 7});
-                    Cookies.set('password', this.formInline.password, { expires: 7});
-                    this.loading = false;
-                    this.$router.push('main');
-                } else {
-                    this.$Message.error('Fail!');
-                }
+                    let userInfo = {username: this.formInline.user, password: this.formInline.password};
+                    this.$store.dispatch('LOGIN_REQUEST', userInfo).then(res => {
+                        this.$Message.success(res.data.message);
+                        Cookies.set('token', res.data.result.token, { expires: 7});
+                        this.$router.push('home');
+                    })
+                    .catch(err => {
+                        this.$Message.error(err.message);
+                    });
+                    
+                } 
             })
-        },
-        enterSubmit(name) {
-            this.$refs[name].validate((valid) => {
-                if (valid) {
-                     this.loading = true;
-                    this.$Message.success('Success!');
-                    Cookies.set('user', this.formInline.user, { expires: 7});
-                    Cookies.set('password', this.formInline.password, { expires: 7});
-                    this.loading = false;
-                    this.$router.push('articleEditor');
-                } else {
-                    this.$Message.error('Fail!');
-                }
-            }) 
         }
     }
 }
@@ -83,4 +75,3 @@ export default {
     @import '../style/Login.less';
 
 </style>
-

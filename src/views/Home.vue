@@ -1,7 +1,32 @@
 <template>
     <div class="home">
-        <Layout>
-        </Layout>
+        <Card :bordered="false">
+            <p slot="title">首页</p>
+            <Row>
+                <Col span="12">
+                    <Card>
+
+                    </Card>
+                </Col>
+                <Col span="12">
+                    <Card>
+
+                    </Card>
+                </Col>
+            </Row>
+            <Row>
+                <Col span="12">
+                    <Card>
+                        
+                    </Card>
+                </Col>
+                <Col span="12">
+                    <Card>
+
+                    </Card>
+                </Col>
+            </Row>
+        </Card>
     </div>
 </template>
 

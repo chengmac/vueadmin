@@ -7,8 +7,8 @@
             <Header class="layout-header-bar">
                 <Icon @click.native="collapsedSider" :class="rotateIcon" :style="{margin: '0 20px'}" type="md-menu" size="24"></Icon>
                 <Breadcrumb>
-                    <BreadcrumbItem  v-for="(item, index) in breadcrumbList" :to="item.path" :key="index">
-                        <Icon :type="item.icon" />{{item.name}}
+                    <BreadcrumbItem :to="`/${$route.meta.title}`">
+                        <Icon :type="$route.meta.icon"></Icon>{{$route.meta.title}}
                     </BreadcrumbItem>
                 </Breadcrumb>
                 <Navbar></Navbar>
@@ -26,6 +26,7 @@
 import Navbar from './components/Navbar';
 import Sidebar from './components/Sidebar';
 import Home from './Home';
+
 export default {
     name: 'Main',
     components: {
@@ -35,10 +36,7 @@ export default {
     },
     data () {
         return {
-            isCollapsed: false,
-            breadcrumbList: [
-                {name: '文章编辑', path: 'articleEditor', icon: 'ios-create-outline'}
-                ]
+            isCollapsed: false
         }
     },
     computed: {
