@@ -1,10 +1,13 @@
 <template>
     <div class="navbar">
-        <nav class="nav"> 
+        <nav class="nav">
+            <span id="full-screen">
+                <Icon type="ios-expand" size="24" class="full-icon" @click="openFullScreen"/>
+            </span>
             <Poptip trigger="click" placement="bottom-end" class="news-modal" width="400" popper-class="poptip-modal">
                 <div class="news">
                     <Badge :count="getNewsListLength" :overflow-count='maxShowNewsCount'>
-                        <Icon type="ios-notifications-outline news-icon" @click="showNewsList()" size="30"/>
+                        <Icon type="ios-notifications-outline news-icon" @click="showNewsList" size="30"/>
                     </Badge>
                 </div>
                 <div slot="content" class="new-item-body">
@@ -26,7 +29,7 @@
                 </div>
                 <DropdownMenu slot="list">
                     <DropdownItem>设置</DropdownItem>
-                    <DropdownItem><span @click="logoutHandle()">退出登录</span></DropdownItem>
+                    <DropdownItem><span @click="logoutHandle">退出登录</span></DropdownItem>
                 </DropdownMenu>
             </Dropdown>
         </nav>
@@ -41,7 +44,8 @@ export default {
     data () {
         return {
             showList: false,
-            maxShowNewsCount: 99
+            maxShowNewsCount: 99,
+            fullscreen: false
         }
     },
     created () {
@@ -84,6 +88,10 @@ export default {
                     })
                 });
             }
+        },
+        // 全屏
+        openFullScreen () {
+            this.$fullscreen.toggle();
         }
     }
 }

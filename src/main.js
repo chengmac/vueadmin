@@ -10,12 +10,14 @@ import 'mavon-editor/dist/css/index.css'
 import Echarts from 'echarts'
 import moment from 'moment'
 import filters from './filters'
+import fullscreen from 'vue-fullscreen'
 
 // use
 Vue.use(Router)
-Vue.use(mavonEditor)
-Vue.use(iView)
-Vue.use(Echarts)
+.use(mavonEditor)
+.use(iView)
+.use(Echarts)
+.use(fullscreen);
 
 Object.keys(filters).forEach(key => Vue.filter(key, filters[key]))
 

@@ -2,7 +2,7 @@
     <div class="articleCategory">
         <Card :bordered="false">
             <p slot="title">文章分类</p>
-            <Table border :loading="tableLoading" :columns="columns" :data="getTableData.docs"></Table>
+            <Table border :loading="tableLoading" :columns="columns" :data="getTableData.docs" no-data-text></Table>
             <Page :total="getTableData.total" :current="Number(getTableData.page)" show-total :styles="pageStyle" class-name="page-count-style" @on-change="changPages"/>
         </Card>
     </div>
@@ -67,10 +67,11 @@ export default {
                         width: 150,
                         align: 'center',
                         render: (h, params) => {
-                            return h('Icon', {
+                            return h('Button', {
                                 props: {
-                                    type: 'ios-trash-outline',
-                                    size: 24
+                                    type: 'primary',
+                                    icon: 'ios-trash-outline',
+                                    size: 'small'
                                 },
                                 style: {
                                     cursor: 'pointer'
@@ -80,7 +81,7 @@ export default {
                                         this.clickTableDelete(params)
                                     }
                                 }
-                            })
+                            }, '删除')
                         }
                     }
             ],
@@ -105,7 +106,8 @@ export default {
         clickTableDelete(params) {
             this.$Modal.confirm({
                 title: `警告`,
-                content: `<p>文章删除${params.row.title}后将不能恢复，是否继续删除?</p>`,
+                closable: true,
+                content: `<p>文章 ${params.row.title} 删除后将不能恢复，是否继续删除?</p>`,
                 cancelText: '取消',
                 onOk: () => {
                     this.$store.dispatch('DELETE_ARTICLE', {'_id':params.row._id})
@@ -144,5 +146,4 @@ export default {
 
 <style scoped lang="less">
     @import '../../style/article/ArticleCategory.less';
-
 </style>
