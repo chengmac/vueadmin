@@ -1,4 +1,4 @@
-# vuepress
+# vueadmin
 
 ## Project setup
 ```

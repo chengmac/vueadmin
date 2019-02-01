@@ -12,7 +12,7 @@
 import { getYearMonthDay } from '../../utils/date'
 
 export default {
-    name: 'ArticleCategory',
+    name: 'articleCategory',
     data () {
         return {
             pageStyle: {
@@ -67,11 +67,11 @@ export default {
                         width: 150,
                         align: 'center',
                         render: (h, params) => {
-                            return h('Button', {
+                            return h('Icon', {
                                 props: {
-                                    type: 'primary',
-                                    icon: 'ios-trash-outline',
-                                    size: 'small'
+                                    type: 'ios-trash-outline',
+                                    size: 24,
+                                    color: '#2d8cf0'
                                 },
                                 style: {
                                     cursor: 'pointer'
@@ -81,7 +81,7 @@ export default {
                                         this.clickTableDelete(params)
                                     }
                                 }
-                            }, '删除')
+                            })
                         }
                     }
             ],
@@ -145,5 +145,10 @@ export default {
 </script>
 
 <style scoped lang="less">
-    @import '../../style/article/ArticleCategory.less';
+.articleCategory {
+    height: 100%;
+    .ivu-card {
+        min-height: 100%;
+    }
+}
 </style>

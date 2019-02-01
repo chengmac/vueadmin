@@ -3,7 +3,6 @@
         <div class="login-container">
             <Content class="loginBody">
                 <Form ref="formInline" :model="formInline" :rules="ruleInline">
-                    <!-- eslint-disable-next-line vue/max-attributes-per-line -->
                     <FormItem prop="user">
                         <Input type="text" v-model="formInline.user" placeholder="Username">
                             <Icon type="ios-person-outline" slot="prepend"></Icon>
