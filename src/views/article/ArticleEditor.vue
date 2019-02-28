@@ -15,11 +15,11 @@
                 </div>
                 <div class="editorModal">
                     <Modal title="文章发布" v-model="modal">
-                        <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">   
-                            <FormItem label="文章分类" prop="classify">
+                        <Form ref="formValidate" :label-width="80">   
+                            <FormItem label="文章分类">
                                 <Row>
                                     <Col span="12">
-                                        <Select v-model="formValidate.classify">
+                                        <Select v-model="article.classify">
                                             <Option v-for="item in classifyList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                                         </Select>
                                     </Col>
@@ -28,11 +28,11 @@
                                     </Col>
                                 </Row>
                             </FormItem>
-                            <transition name="fade">
-                                <FormItem  v-if="showClassify" prop="newClassify">
+                            <transition name="fade-in">
+                                <FormItem  v-if="showClassify">
                                     <Row>
                                         <Col span="12">
-                                            <Input v-model="formValidate.newClassify" placeholder="请输入文章分类..." />
+                                            <Input v-model="newClassify" placeholder="请输入文章分类..." />
                                         </Col>
                                         <Col span="12">
                                             <Button class="marginLeftBtn" type="primary" @click="confirmCreateClassify">确认</Button>
@@ -41,11 +41,11 @@
                                     </Row>
                                 </FormItem>
                             </transition>
-                            <FormItem label="文章标签" prop="label">
+                            <FormItem label="文章标签">
                                 <Row>
                                     <Col span="12">
-                                        <Select v-model="formValidate.label">
-                                            <Option v-for="item in tagList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                                        <Select v-model="article.label" multiple>
+                                            <Option v-for="item in lablelList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                                         </Select>
                                     </Col>
                                     <Col span="12">
@@ -53,11 +53,11 @@
                                     </Col>
                                 </Row>
                             </FormItem>
-                            <transition name="fade">
-                                <FormItem  v-if="showTag" prop="newTag">
+                            <transition name="fade-in">
+                                <FormItem  v-if="showLabel">
                                     <Row>
                                         <Col span="12">
-                                            <Input v-model="formValidate.newTag" placeholder="请输入文章标签..." />
+                                            <Input v-model="newLabel" placeholder="请输入文章标签..." />
                                         </Col>
                                         <Col span="12">
                                             <Button class="marginLeftBtn" type="primary" @click="confirmCreateTag">确认</Button>
@@ -66,22 +66,22 @@
                                     </Row>
                                 </FormItem>
                             </transition>
-                            <FormItem label="文章类型" prop="type">
+                            <FormItem label="文章类型">
                                 <Row>
                                     <Col span="12">
-                                        <Select v-model="formValidate.type">
-                                            <Option v-for="item in classifyList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                                        <Select v-model="article.type">
+                                            <Option v-for="item in typeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                                         </Select>
                                     </Col>
                                 </Row>
                             </FormItem>
-                            <FormItem label="是否公开" prop="overt">
+                            <FormItem label="是否公开">
                                 <Row>
                                     <Col span="12">
-                                        <Switch size="large" v-model="formValidate.overt">
+                                        <i-switch size="large" v-model="article.overt">
                                             <span slot="open">公开</span>
                                             <span slot="close">隐私</span>
-                                        </Switch>
+                                        </i-switch>
                                     </Col>
                                 </Row>
                             </FormItem>
@@ -92,7 +92,6 @@
                         </div>
                     </Modal>
                 </div>
-                <Switch v-model="formValidate.overt"/>
                 <div class="editorBtn">
                     <Button type="primary" @click="publishArticle">发布文章</Button>
                     <Button @click="handleCancel" style="margin-left: 20px">取消</Button>
@@ -108,37 +107,25 @@ export default {
     name: 'ArticleEditor',
     data () {
         return {
-            modal: false,
-            showTag: false,
+            modal: false, // 弹框标记
+            showLabel: false,
             showClassify: false,
+            newClassify: '', //新建分类
+            newLabel: '',//新建标签
             classifyList: [], // 分类列表
-            tagList: [], // 标签列表
+            lablelList: [], // 标签列表
+            typeList: [
+                {label: '原创', value: 0},
+                {label: '转载', value: 1}
+            ],
             editorOption: {},  //文本编辑器配置
             article: {
                 title: '',
-                content: ''
-            },
-            formValidate: {
+                content: '',
                 type: '',
                 classify: '',
                 label: '',
-                newClassify: '', //新建分类
-                newTag: '',
-                overt: false
-            },
-            ruleValidate: {
-                title: [
-                    { required: true, message: '文章名称不能为空', trigger: 'blur' }
-                ],
-                classify: [
-                    { required: true, message: '文章分类不能为空', trigger: 'change' },
-                ],
-                tag: [
-                    { required: true,type: 'array', message: '文章标签不能为空', trigger: 'change' }
-                ],
-                content: [{required: true, message: '文章内容不能为空', trigger: 'blur' }],
-                newClassify: { required: true, message: '输入不能为空', trigger: 'blur' },
-                newTag: { required: true, message: '输入不能为空', trigger: 'blur' },
+                overt: true
             }
         }
     },
@@ -148,46 +135,61 @@ export default {
         }
     },
     methods: {
-        onok() {
-            alert(1)
-        },
-        handleSubmit (name) {
-            this.$refs[name].validate((valid) => {
-                if (valid) {
-                    let data = this.formValidate;
-                    // 删除多余属性
-                    delete data.newClassify;
-                    delete data.newTag;
-                    this.$store.dispatch('ARTICLE_SAVE', data).then(res => {
-                        this.$Notice.success({
-                            title: `${this.formValidate.title}文章，${res.data.message}`
-                        });
-                        this.formValidate = {
-                            type: '',
-                            classify: '',
-                            tag: '',
-                            overt: false
-                        };
-                        // 更新消息中心
-                        this.$vue.$emit('updateNews');
-                    }).catch(err => {
-                        this.$Message.error(res.data.message);
+        comfirmPulish (name) {
+            if (this.article.classify === '') {
+                this.renderErrorTips('文章分类不能为空');
+                return false;
+            }
+            if (this.article.label.length === 0) {
+                this.renderErrorTips('文章标签不能为空');
+                return false;
+            }
+            if (this.article.type === '') {
+                this.renderErrorTips('文章类型不能为空');
+            } else {
+                this.$store.dispatch('ARTICLE_SAVE', this.article).then(res => {
+                    this.$Notice.success({
+                        title: `${this.article.title}文章，${res.data.message}`
                     });
-                    
-                } 
-            })
+                    this.article = {
+                        type: '',
+                        classify: '',
+                        tag: '',
+                        overt: false
+                    };
+                    // 更新消息中心
+                    this.$vue.$emit('updateNews');
+                }).catch(err => {
+                    this.$Message.error(res.data.message);
+                });
+            }
         },
         handleCancel () {
-            this.formValidate = {
+            this.article = {
                 type: '',
                 classify: '',
                 tag: '',
                 overt: false
             };
         },
-        // 打开弹框
+        // 打开发布弹框
         publishArticle() {
-            this.modal = true;
+            if (this.article.title !== '') {
+                if (this.article.content !== '') {
+                    this.modal = true;
+                } else {
+                    this.renderErrorTips('文章内容不能为空');
+                }
+            } else {
+                this.renderErrorTips('文章标题不能为空');
+            }
+        },
+        // 展示错误信息提示
+        renderErrorTips(mes) {
+            this.$Message.error({
+                content: mes,
+                duration: 5
+            });
         },
         onEditorBlur(quill) {
             console.log('editor blur!', quill)
@@ -208,10 +210,10 @@ export default {
         },
         confirmCreateClassify () {
             this.classifyList.push({
-                value: this.formValidate.newClassify,
-                label: this.formValidate.newClassify
+                value: this.newClassify,
+                label: this.newClassify
             });
-            this.formValidate.newClassify= '';
+            this.newClassify= '';
             this.showClassify = !this.showClassify;
         },
         cancelCreateClassify () {
@@ -219,23 +221,19 @@ export default {
         },
 
         showNewTagItem () {
-            this.showTag = !this.showTag;
+            this.showLabel = !this.showLabel;
         },
         // 新建标签
         confirmCreateTag () {
-            this.tagList.push({
-                value: this.formValidate.newTag,
-                label: this.formValidate.newTag
+            this.lablelList.push({
+                value: this.newLabel,
+                label: this.newLabel
             });
-            console.log(this.tagList)
-            this.formValidate.newTag= '';
-            this.showTag = !this.showTag;
+            this.newLabel= '';
+            this.showLabel = !this.showLabel;
         },
         cancelCreateTag () {
-            this.showTag = !this.showTag;
-        },
-        comfirmPulish() {
-            this.modal = false;
+            this.showLabel = !this.showLabel;
         },
         cancelPulish() {
             this.modal = false;
