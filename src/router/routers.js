@@ -12,26 +12,26 @@ const mainRouter = [
         component: () => import('@/views/Home.vue')
     },
     {
-        path: '/articleEditor',
-        name: 'articleEditor',
+        path: '/editor',
+        name: 'editor',
         icon: 'ios-create-outline',
         meta: {
             icon: 'ios-create-outline',
             title: '文章编辑',
             requireAuth: true,
         },
-        component: () => import('@/views/article/ArticleEditor.vue')
+        component: () => import('@/views/article/Editor.vue')
     },
     {
-        path: '/articleCategory',
-        name: 'articleCategory',
+        path: '/administrate',
+        name: 'administrate',
         icon: 'ios-list-box-outline',
         meta: {
             icon: 'ios-list-box-outline',
-            title: '文章分类',
+            title: '文章管理',
             requireAuth: true,
         },
-        component: () => import('@/views/article/ArticleCategory.vue')
+        component: () => import('@/views/article/Administrate.vue')
     },
 ];
 

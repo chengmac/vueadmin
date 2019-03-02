@@ -24,7 +24,7 @@ router.beforeEach((to, form, next) => {
     } else {
         // 存在cookie时7天免登陆，直接进入
         if(Cookies.get('token')){
-            next({path: '/articleEditor'});
+            next({path: '/editor'});
         } 
         else {
            next();

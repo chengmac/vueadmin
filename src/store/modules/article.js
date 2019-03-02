@@ -2,7 +2,7 @@
  * @Author: chengmac 
  * @Date: 2018-10-26 23:43:00 
  * @Last Modified by: chengmac
- * @Last Modified time: 2018-11-15 22:16:49
+ * @Last Modified time: 2019-03-01 23:30:04
  */
 
 import axios from '../../api/interceptor'
@@ -34,7 +34,6 @@ const article = {
                 data[i].createTime = moment(data[i].createTime).format('lll');
             }
             let list = Object.assign(res.data.result, {docs: data})
-            // console.log(data)
             state.tableData = list;
             state.tableLoading = !state.tableLoading;
         },

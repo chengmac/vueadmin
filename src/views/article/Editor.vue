@@ -7,14 +7,11 @@
                 <div class="editor">
                     <quill-editor v-model="article.content"
                     ref="myQuillEditor"
-                    :options="editorOption"
-                    @blur="onEditorBlur($event)"
-                    @focus="onEditorFocus($event)"
-                    @ready="onEditorReady($event)">
+                    :options="editorOption">
                     </quill-editor>        
                 </div>
                 <div class="editorModal">
-                    <Modal title="文章发布" v-model="modal">
+                    <Modal title="文章发布" v-model="openModal">
                         <Form ref="formValidate" :label-width="80">   
                             <FormItem label="文章分类">
                                 <Row>
@@ -24,7 +21,7 @@
                                         </Select>
                                     </Col>
                                     <Col span="12">
-                                        <Button class="create-btn" type="primary" @click="showNewClassifyItem">新建分类</Button>
+                                        <Button class="create-btn" type="primary" @click="showNewCreateItem('classify')">新建分类</Button>
                                     </Col>
                                 </Row>
                             </FormItem>
@@ -36,7 +33,7 @@
                                         </Col>
                                         <Col span="12">
                                             <Button class="marginLeftBtn" type="primary" @click="confirmCreateClassify">确认</Button>
-                                            <Button class="marginLeftBtn" @click="cancelCreateClassify">取消</Button>
+                                            <Button class="marginLeftBtn" @click="cancelNewCreate('classify')">取消</Button>
                                         </Col>
                                     </Row>
                                 </FormItem>
@@ -49,7 +46,7 @@
                                         </Select>
                                     </Col>
                                     <Col span="12">
-                                        <Button class="create-btn" type="primary" @click="showNewTagItem">新建标签</Button>
+                                        <Button class="create-btn" type="primary" @click="showNewCreateItem('label')">新建标签</Button>
                                     </Col>
                                 </Row>
                             </FormItem>
@@ -61,7 +58,7 @@
                                         </Col>
                                         <Col span="12">
                                             <Button class="marginLeftBtn" type="primary" @click="confirmCreateTag">确认</Button>
-                                            <Button class="marginLeftBtn" @click="cancelCreateTag">取消</Button>
+                                            <Button class="marginLeftBtn" @click="cancelNewCreate('label')">取消</Button>
                                         </Col>
                                     </Row>
                                 </FormItem>
@@ -107,7 +104,7 @@ export default {
     name: 'ArticleEditor',
     data () {
         return {
-            modal: false, // 弹框标记
+            openModal: false, // 弹框标记
             showLabel: false,
             showClassify: false,
             newClassify: '', //新建分类
@@ -151,32 +148,37 @@ export default {
                     this.$Notice.success({
                         title: `${this.article.title}文章，${res.data.message}`
                     });
-                    this.article = {
-                        type: '',
-                        classify: '',
-                        tag: '',
-                        overt: false
-                    };
+                    this.openModal = false;
                     // 更新消息中心
                     this.$vue.$emit('updateNews');
+                    this.clearInputData();
                 }).catch(err => {
                     this.$Message.error(res.data.message);
                 });
             }
         },
         handleCancel () {
+            this.article.title =  '',
+            this.article.content = '';
+        },
+        // 清空输入数据
+        clearInputData() {
             this.article = {
+                title: '',
+                content: '',
                 type: '',
                 classify: '',
-                tag: '',
-                overt: false
+                label: '',
+                overt: true
             };
         },
         // 打开发布弹框
         publishArticle() {
             if (this.article.title !== '') {
                 if (this.article.content !== '') {
-                    this.modal = true;
+                    this.openModal = true;
+                    this.classifyList = [];
+                    this.lablelList = [];
                 } else {
                     this.renderErrorTips('文章内容不能为空');
                 }
@@ -191,22 +193,21 @@ export default {
                 duration: 5
             });
         },
-        onEditorBlur(quill) {
-            console.log('editor blur!', quill)
+        // 展示新建输入框
+        showNewCreateItem(type) {
+            if(type === 'classify') {
+                this.showClassify = true;
+            } else if('label') {
+                this.showLabel = true;
+            }
         },
-        onEditorFocus(quill) {
-            console.log('editor focus!', quill)
-        },
-        onEditorReady(quill) {
-            console.log('editor ready!', quill)
-        },
-        onEditorChange({ quill, html, text }) {
-            console.log('editor change!', quill, html, text)
-            this.content = html
-        },
-        // 新建分类
-        showNewClassifyItem () {
-            this.showClassify = !this.showClassify;
+        // 取消新建
+        cancelNewCreate(type) {
+            if(type === 'classify') {
+                this.showClassify = false;
+            } else if('label') {
+                this.showLabel = false;
+            }
         },
         confirmCreateClassify () {
             this.classifyList.push({
@@ -215,13 +216,6 @@ export default {
             });
             this.newClassify= '';
             this.showClassify = !this.showClassify;
-        },
-        cancelCreateClassify () {
-            this.showClassify = !this.showClassify;
-        },
-
-        showNewTagItem () {
-            this.showLabel = !this.showLabel;
         },
         // 新建标签
         confirmCreateTag () {
@@ -232,11 +226,9 @@ export default {
             this.newLabel= '';
             this.showLabel = !this.showLabel;
         },
-        cancelCreateTag () {
-            this.showLabel = !this.showLabel;
-        },
         cancelPulish() {
-            this.modal = false;
+            this.clearInputData();
+            this.openModal = false;
         },
     }
 }
