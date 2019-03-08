@@ -12,7 +12,7 @@
                 </div>
                 <div class="editorModal">
                     <Modal title="文章发布" v-model="openModal">
-                        <Form ref="formValidate" :label-width="80">   
+                        <Form :label-width="80">   
                             <FormItem label="文章分类">
                                 <Row>
                                     <Col span="12">
@@ -100,10 +100,13 @@
 
 <script>
 import Quill from 'quill'
+import { createSelectData } from '../../utils/utils'
+
 export default {
     name: 'ArticleEditor',
     data () {
         return {
+            isUpdate: false, // 标记文章是否为修改
             openModal: false, // 弹框标记
             showLabel: false,
             showClassify: false,
@@ -112,23 +115,46 @@ export default {
             classifyList: [], // 分类列表
             lablelList: [], // 标签列表
             typeList: [
-                {label: '原创', value: 0},
-                {label: '转载', value: 1}
+                {label: '原创', value: '0'},
+                {label: '转载', value: '1'}
             ],
             editorOption: {},  //文本编辑器配置
             article: {
                 title: '',
                 content: '',
-                type: '',
-                classify: '',
-                label: '',
+                type: 0,
+                classify: 'fgfgdf',
+                label: ['4324', '佛挡杀佛'],
                 overt: true
             }
         }
     },
+    mounted() {
+        this.$vue.$on('updateArticle', param => {
+            this.isUpdate = true;
+            this.$store.dispatch('GET_ARTICLE', param).then(res => {
+                if(res.data.result) {
+                    for(var obj in res.data.result) {
+                        for(var key in this.article) {
+                            if(obj === key) {
+                                this.article[key] = res.data.result[obj];
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    },
     computed: {
         editor() {
             return this.$refs.myQuillEditor.quill
+        },
+        getArticle() {
+            if(this.$route.params.update) {
+                return this.$store.state.article.docs;
+            } else {
+                return false;
+            }
         }
     },
     methods: {
@@ -144,6 +170,10 @@ export default {
             if (this.article.type === '') {
                 this.renderErrorTips('文章类型不能为空');
             } else {
+                if(this.isUpdate) {
+                    this.article['updateTime'] = new Date();
+                    this.isUpdate = false;
+                }
                 this.$store.dispatch('ARTICLE_SAVE', this.article).then(res => {
                     this.$Notice.success({
                         title: `${this.article.title}文章，${res.data.message}`
@@ -179,6 +209,12 @@ export default {
                     this.openModal = true;
                     this.classifyList = [];
                     this.lablelList = [];
+                    this.$store.dispatch('GET_ARTICLE_CLASSIFY').then(data => {
+                        this.classifyList = createSelectData(data.data.result);
+                    });
+                    this.$store.dispatch('GET_ARTICLE_lABEL').then(data => {
+                        this.lablelList = createSelectData(data.data.result);
+                    });
                 } else {
                     this.renderErrorTips('文章内容不能为空');
                 }
@@ -211,8 +247,8 @@ export default {
         },
         confirmCreateClassify () {
             this.classifyList.push({
-                value: this.newClassify,
-                label: this.newClassify
+                label: this.newClassify,
+                value: this.newClassify
             });
             this.newClassify= '';
             this.showClassify = !this.showClassify;
@@ -220,8 +256,8 @@ export default {
         // 新建标签
         confirmCreateTag () {
             this.lablelList.push({
-                value: this.newLabel,
-                label: this.newLabel
+                label: this.newLabel,
+                value: this.newLabel
             });
             this.newLabel= '';
             this.showLabel = !this.showLabel;

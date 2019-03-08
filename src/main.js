@@ -9,6 +9,7 @@ import Echarts from 'echarts'
 import moment from 'moment'
 import filters from './filters'
 import fullscreen from 'vue-fullscreen'
+import echarts from 'echarts'
 
 // styles
 import 'iview/dist/styles/iview.css'
@@ -29,6 +30,7 @@ Vue.config.productionTip = false
 moment.locale('zh-cn');
 // 创建事件总线
 Vue.prototype.$vue = new Vue();
+Vue.prototype.$echarts = echarts;
 
 new Vue({
   router,

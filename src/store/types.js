@@ -2,7 +2,7 @@
  * @Author: chengmac 
  * @Date: 2018-10-17 20:55:52 
  * @Last Modified by: chengmac
- * @Last Modified time: 2018-11-11 16:13:17
+ * @Last Modified time: 2019-03-08 20:45:32
  */
 
 // 登录模块
@@ -14,6 +14,10 @@ export const LOGIN_REQUEST_FAILURE = 'LOGIN_REQUEST_FAILURE';
 export const ARTICLE_SAVE = 'ARTICLE_SAVE';
 export const ARTICLE_SAVE_SUCCESS = 'ARTICLE_SAVE_SUCCESS';
 export const ARTICLE_SAVE_FAILURE = 'ARTICLE_SAVE_FAILURE';
+
+export const GET_ARTICLE = 'GET_ARTICLE';
+export const GET_ARTICLE_SUCCESS = 'GET_ARTICLE_SUCCESS';
+export const GET_ARTICLE_FAILURE = 'GET_ARTICLE_FAILURE';
 
 export const GET_ARTICLE_LIST = 'GET_ARTICLE_LIST';
 export const GET_ARTICLE_LIST_SUCCESS = 'GET_ARTICLE_LIST_SUCCESS';
@@ -31,7 +35,13 @@ export const MENU_ROUTER_JUMP = 'MENU_ROUTER_JUMP';
 export const NEWS_LIST = 'NEWS_LIST';
 export const NEWS_LIST_SUCCESS = 'NEWS_LIST_SUCCESS';
 export const NEWS_LIST_FAILURE = 'NEWS_LIST_FAILURE';
+
 // 更改消息为已读
 export const UPDATE_NEWS_STATUS = 'UPDATE_NEWS_STATUS';
 export const UPDATE_NEWS_STATUS_SUCCESS = 'UPDATE_NEWS_STATUS_SUCCESS';
 export const UPDATE_NEWS_STATUS_FAILURE = 'UPDATE_NEWS_STATUS_FAILURE';
+
+// 分类
+export const GET_ARTICLE_CLASSIFY = 'GET_ARTICLE_CLASSIFY';
+// 标签
+export const GET_ARTICLE_lABEL = 'GET_ARTICLE_lABEL';

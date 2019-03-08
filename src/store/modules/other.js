@@ -2,7 +2,7 @@
  * @Author: chengmac 
  * @Date: 2018-11-03 09:31:10 
  * @Last Modified by: chengmac
- * @Last Modified time: 2018-11-11 17:20:03
+ * @Last Modified time: 2019-03-03 18:02:31
  */
 
 import axios from '../../api/interceptor'
@@ -45,7 +45,7 @@ const route = {
     },
     actions: {
         [TYPES.NEWS_LIST] ({commit}) {
-            axios.get('/news').then((news) => {
+            axios.get('/getNews').then((news) => {
                 if(news) {
                     commit(TYPES.NEWS_LIST_SUCCESS, news);
                 }
@@ -55,7 +55,7 @@ const route = {
         },
         [TYPES.UPDATE_NEWS_STATUS] ({commit}, content) {
             new Promise((resolve, reject) => {
-                return axios.put('/news', content).then((news) => {
+                return axios.put('/updateNews', content).then((news) => {
                     if(news) {
                         commit(TYPES.UPDATE_NEWS_STATUS_SUCCESS);
                         resolve(news);

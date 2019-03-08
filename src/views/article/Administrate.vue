@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import { getYearMonthDay } from '../../utils/date'
 
 export default {
     name: 'articleCategory',
@@ -78,7 +77,7 @@ export default {
                         key: 'action',
                         width: 150,
                         align: 'center',
-                        render: (h, params) => {
+                        render: (h, param) => {
                             return h('Icon', {
                                 props: {
                                     type: 'ios-create-outline',
@@ -90,7 +89,8 @@ export default {
                                 },
                                 on: {
                                     click: () => {
-                                        this.clickTableDelete(params)
+                                        this.$vue.$emit('updateArticle', param.row._id);
+                                        this.$router.push('editor');
                                     }
                                 }
                             })
