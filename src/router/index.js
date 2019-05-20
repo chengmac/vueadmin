@@ -17,6 +17,8 @@ router.beforeEach((to, form, next) => {
         // 判断是否在登录状态
         if(Cookies.get('token')){
             next();
+            // 设置title
+            document.title = to.meta.title; 
         } else {
             // 重定向回login
             next({path: '/login'}); 
@@ -30,8 +32,6 @@ router.beforeEach((to, form, next) => {
            next();
         }
     }
-    // 设置title
-    document.title = to.meta.title; 
   });
   
 router.afterEach(route => {

@@ -4,7 +4,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import iView from 'iview'
-import VueQuillEditor from 'vue-quill-editor'
+import mavonEditor from 'mavon-editor'
 import Echarts from 'echarts'
 import moment from 'moment'
 import filters from './filters'
@@ -13,13 +13,11 @@ import echarts from 'echarts'
 
 // styles
 import 'iview/dist/styles/iview.css'
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
+import 'mavon-editor/dist/css/index.css'
 
 // use
 Vue.use(Router)
-.use(VueQuillEditor)
+.use(mavonEditor)
 .use(iView)
 .use(Echarts)
 .use(fullscreen);

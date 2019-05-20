@@ -194,7 +194,7 @@ export default {
     .card-head-btn {
         float: right;
         position: relative;
-        top: -5px;
+        top: -6px;
     }
 }
 </style>
