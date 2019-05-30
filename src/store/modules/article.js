@@ -2,7 +2,7 @@
  * @Author: chengmac 
  * @Date: 2018-10-26 23:43:00 
  * @Last Modified by: chengmac
- * @Last Modified time: 2019-03-08 21:04:42
+ * @Last Modified time: 2019-05-30 21:42:40
  */
 
 import axios from '../../api/interceptor'
@@ -69,7 +69,7 @@ const article = {
         [TYPES.ARTICLE_SAVE]({commit}, docs) {
             commit(TYPES.ARTICLE_SAVE);
             return new Promise((resolve, reject) => {
-                axios.post('/articleSave', docs).then((res) => {
+                axios.post('/article/save', docs).then((res) => {
                     resolve(res);
                     commit(TYPES.ARTICLE_SAVE_SUCCESS);
                 })
@@ -99,7 +99,7 @@ const article = {
         // 获取文章列表
         [TYPES.GET_ARTICLE_LIST]({commit}, docs) {
             commit(TYPES.GET_ARTICLE_LIST);
-            const params = `/articleList?page=${docs.page}&limit=${docs.limit}`;
+            const params = `/article/list?page=${docs.page}&limit=${docs.limit}`;
             axios.get(params).then((res) => {
                 commit(TYPES.GET_ARTICLE_LIST_SUCCESS, res);
             })
@@ -112,7 +112,7 @@ const article = {
         [TYPES.DELETE_ARTICLE]({commit}, docs) {
             commit(TYPES.GET_ARTICLE_LIST);
             return new Promise((resolve, reject) => {
-                axios.delete('/articleDelete', {data: docs}).then((res) => {
+                axios.delete('/article/batchDelete', {data: docs}).then((res) => {
                     resolve(res);
                     commit(TYPES.DELETE_ARTICLE_SUCCESS);
                 })
@@ -125,9 +125,8 @@ const article = {
 
         // 获取所有文章分类
         [TYPES.GET_ARTICLE_CLASSIFY]({commit}) {
-            const params = `/getArticleAllClassify`;
             return new Promise((resolve, reject) => {
-                axios.get(params).then((res) => {
+                axios.get('/classify').then((res) => {
                     resolve(res);
                 })
                 .catch((err) => {
@@ -138,9 +137,20 @@ const article = {
 
         // 获取所有文章标签
         [TYPES.GET_ARTICLE_lABEL]({commit}) {
-            const params = `/getArticleAllLabel`;
             return new Promise((resolve, reject) => {
-                axios.get(params).then((res) => {
+                axios.get('/tag').then((res) => {
+                    resolve(res);
+                })
+                .catch((err) => {
+                    reject(err);
+                })
+            });
+        },
+
+        //上传文章配图
+        [TYPES.UPLOAD_ARTICLE_IMAGE]({commit}) {
+            return new Promise((resolve, reject) => {
+                axios.post('/upload/image').then(res => {
                     resolve(res);
                 })
                 .catch((err) => {

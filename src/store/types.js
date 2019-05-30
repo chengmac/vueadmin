@@ -2,7 +2,7 @@
  * @Author: chengmac 
  * @Date: 2018-10-17 20:55:52 
  * @Last Modified by: chengmac
- * @Last Modified time: 2019-03-08 20:45:32
+ * @Last Modified time: 2019-05-30 21:29:13
  */
 
 // 登录模块
@@ -26,6 +26,10 @@ export const GET_ARTICLE_LIST_FAILURE = 'GET_ARTICLE_LIST_FAILURE';
 export const DELETE_ARTICLE = 'DELETE_ARTICLE';
 export const DELETE_ARTICLE_SUCCESS = 'DELETE_ARTICLE_SUCCESS';
 export const DELETE_ARTICLE_FAILURE = 'DELETE_ARTICLE_FAILURE';
+
+export const UPLOAD_ARTICLE_IMAGE = 'UPLOAD_ARTICLE_IMAGE';
+export const UPLOAD_ARTICLE_IMAGE_SUCCESS = 'UPLOAD_ARTICLE_IMAGE_SUCCESS';
+export const UPLOAD_ARTICLE_IMAGE_FAILURE = 'UPLOAD_ARTICLE_IMAGE_FAILURE';
 
 // 菜单栏
 export const MENU_LIST = 'MENU_LIST';

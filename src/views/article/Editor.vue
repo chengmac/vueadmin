@@ -6,7 +6,7 @@
                 <Button type="primary" @click="publishArticle">发布文章</Button>
             </div>
             <div class="editor">
-                <mavon-editor :ishljs="true" @change="editorChange"/>      
+                <mavon-editor :ishljs="true" v-model="article.content" @change="editorChange"/>      
             </div>
             <div class="editorModal">
                 <Modal title="文章发布" v-model="openModal">
@@ -88,7 +88,10 @@
                             </Row>
                         </FormItem>
                         <FormItem label="文章配图">
-                            <Upload action="//jsonplaceholder.typicode.com/posts/">
+                            <Upload 
+                            action="//jsonplaceholder.typicode.com/posts/"
+                            :before-upload="handleBeforeUpload"
+                            >
                                 <i-button icon="ios-cloud-upload-outline">上传图片</i-button>
                             </Upload>
                         </FormItem>
@@ -270,6 +273,12 @@ export default {
             this.clearInputData();
             this.openModal = false;
         },
+        // 上传图片
+        handleBeforeUpload() {
+            this.$store.dispatch('UPLOAD_ARTICLE_IMAGE').then(res => {
+                console.log(res)
+            })
+        }
     }
 }
 </script>

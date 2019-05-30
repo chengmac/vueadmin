@@ -124,18 +124,9 @@ export default {
                 onOk: () => {
                     this.$store.dispatch('DELETE_ARTICLE', {'_id': this.deleteIdList})
                     .then((res) => {
-                        this.getTableData.docs.forEach(element => {
-                            this.deleteIdList.forEach(id => {
-                                if(element._id === id) {
-                                    let index = this.getTableData.docs.indexOf(element);
-                                    if(index !== -1) {
-                                        // 删除本地数据
-                                        this.getTableData.docs.splice(index, 1);
-                                    }
-                                }
-                            });
-                            this.disabledDelete = true;
-                        });
+                        var pages = {page: 1 , limit: 10};
+                        this.$store.dispatch('GET_ARTICLE_LIST', pages);
+                        this.disabledDelete = true;
                         // 清空
                         this.deleteIdList = [];
                         this.$Notice.success({
@@ -155,7 +146,7 @@ export default {
             var pages = {page: page , limit: 10};
             this.$store.dispatch('GET_ARTICLE_LIST', pages);
         },
-        
+        // 勾选按钮事件
         onSelectionChange(selection) {
             if(selection.length !== 0) {
                 this.disabledDelete = false;

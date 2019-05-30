@@ -10,6 +10,7 @@ import moment from 'moment'
 import filters from './filters'
 import fullscreen from 'vue-fullscreen'
 import echarts from 'echarts'
+import * as qiniu from 'qiniu-js'
 
 // styles
 import 'iview/dist/styles/iview.css'
